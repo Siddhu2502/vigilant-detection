@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Exclude the "files" and all the directories inside it
-files/
+# Exclude the "datafiles" and all the directories inside it
+datafiles/
