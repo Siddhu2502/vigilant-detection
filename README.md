@@ -5,7 +5,7 @@ A project for multi level image recognition.
 ![Logo](https://preview.redd.it/q8lgr5e64sm31.jpg?auto=webp&s=d4dc5520fbb7c2d7993846e9065bb495d3df5fe8)
 
 
-## Authors
+## Author
 
 - [@sidhhu2502](https://github.com/Siddhu2502)
 
