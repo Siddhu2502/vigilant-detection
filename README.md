@@ -9,7 +9,6 @@ A project for multi level image recognition.
 
 - [@sidhhu2502](https://github.com/Siddhu2502)
 
-
 ## Roadmap
 The entire project goes up like this
 ### Phase-1  
