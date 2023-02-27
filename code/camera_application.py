@@ -14,13 +14,16 @@ class CameraApp:
         self.panel = tk.Label(self.root)
         self.panel.pack(side="top", padx=10, pady=10)
 
-        # the button should lie below the video feed and in this order first snapshot then quit
         btn = tk.Button(self.root, text="Snapshot!", command=self.take_screenshot)
         btn.pack(side="bottom", fill="both", expand="yes", padx=10, pady=10)
 
         btn2 = tk.Button(self.root, text="Quit", command=self.on_close)
         btn2.pack(side="bottom", fill="both", expand="yes", padx=10, pady=10)
 
+        self.name = tk.StringVar()
+        self.name.set("")
+        self.nameEntry = tk.Entry(self.root, textvariable=self.name)
+        self.nameEntry.pack(side="bottom", fill="both", expand="yes", padx=10, pady=10)
 
         self.stopEvent = threading.Event()
         self.thread = threading.Thread(target=self.video_loop, args=())
@@ -34,7 +37,6 @@ class CameraApp:
             while not self.stopEvent.is_set():
                 ret, self.frame = self.videostream.read()
                 if ret:
-                    # optional
                     self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
                     image = PIL.Image.fromarray(self.frame)
                     image = PIL.ImageTk.PhotoImage(image)
@@ -49,11 +51,24 @@ class CameraApp:
             print(e)
 
     def take_screenshot(self):
-        timestamp = datetime.datetime.now()
-        filename = "{}.jpg".format(timestamp.strftime("%Y-%m-%d_%H-%M-%S"))
-        p = os.path.sep.join((self.output_path, filename))
-        cv2.imwrite(p, cv2.cvtColor(self.frame, cv2.COLOR_RGB2BGR))
+        path = self.create_folder_for_person()
+        name = self.name.get()
+        now = datetime.datetime.now()
+        filename = "{}_{}.png".format(name, now.strftime("%Y-%m-%d_%H-%M-%S"))
+        p = os.path.join(path, filename)
+        cv2.imwrite(p, self.frame.copy())
         print("[INFO] saved {}".format(filename))
+
+
+    def create_folder_for_person(self):
+        if not os.path.exists(self.output_path):
+            os.makedirs(self.output_path)
+        name = self.name.get()
+        path = os.path.join(self.output_path, name)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        return path
+
 
     def on_close(self):
         print("[INFO] closing...")
@@ -63,5 +78,5 @@ class CameraApp:
 
 if __name__ == '__main__':
     vs = cv2.VideoCapture(0)
-    p = CameraApp(vs, "/home/siddharth/vscode/other_projects/inteliot/files/trainingimages")
+    p = CameraApp(vs, "screenshots")
     vs.release()
