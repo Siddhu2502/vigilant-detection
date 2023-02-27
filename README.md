@@ -8,6 +8,7 @@ A project for multi level image recognition.
 ## Author
 
 - [@sidhhu2502](https://github.com/Siddhu2502)
+- [@balasuriyaranganathan](https://github.com/balasuriyaranganathan)
 
 ## Roadmap
 The entire project goes up like this
